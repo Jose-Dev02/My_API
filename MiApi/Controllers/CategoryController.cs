@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MiApi.DtoS;
+using MiApi.DTOs;
 using MiApi.Models;
 using MiApi.Service;
 using Microsoft.AspNetCore.Http;

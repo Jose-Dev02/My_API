@@ -1,6 +1,6 @@
 using AutoMapper;
 using FluentValidation;
-using MiApi.DtoS;
+using MiApi.DTOs;
 using MiApi.Mappers;
 using MiApi.Models;
 using MiApi.Repository;

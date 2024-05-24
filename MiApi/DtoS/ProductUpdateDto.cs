@@ -1,4 +1,4 @@
-﻿namespace MiApi.DtoS
+﻿namespace MiApi.DTOs
 {
     public class ProductUpdateDto
     {

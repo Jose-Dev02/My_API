@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MiApi.DtoS;
+using MiApi.DTOs;
 
 namespace MiApi.Validators
 {

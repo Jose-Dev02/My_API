@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MiApi.DtoS;
+using MiApi.DTOs;
 using MiApi.Models;
 using MiApi.Repository;
 using Microsoft.IdentityModel.Tokens;
