@@ -51,6 +51,7 @@ namespace MiApi.Controllers
             if(!_categoryService.Validate(categoryInsertDto)) return BadRequest(_categoryService.Errors);
 
             var category = await _categoryService.AddAsync(categoryInsertDto);
+
             return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
         }
 

@@ -19,9 +19,13 @@ namespace MiApi.Repository
             _inventoryContext.Warehouse.Remove(warehouse);
         }
 
-        public async Task<Warehouse> FindByIdAsync(int id) => await _inventoryContext.Warehouse.FindAsync(id);
+        public async Task<Warehouse> FindByIdAsync(int id) => await _inventoryContext.Warehouse.Include( b => b.Product )
+                                                                                               .ThenInclude(b => b.Category )
+                                                                                               .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<Warehouse>> GetAllAsync() => await _inventoryContext.Warehouse.ToListAsync();
+        public async Task<IEnumerable<Warehouse>> GetAllAsync() => await _inventoryContext.Warehouse.Include( b => b.Product )
+                                                                                                    .ThenInclude( b => b.Category )
+                                                                                                    .ToListAsync();
 
         public async Task Save() => await _inventoryContext.SaveChangesAsync();
 

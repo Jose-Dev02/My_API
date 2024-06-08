@@ -19,10 +19,12 @@ namespace MiApi.Repository
         {
             _inventoryContext.Products.Remove(entity);
         }
-        public async Task<Product> FindByIdAsync(int id) => await _inventoryContext.Products.FindAsync(id);
+        public async Task<Product> FindByIdAsync(int id) => await _inventoryContext.Products.Include(b => b.Category)
+                                                                                            .FirstOrDefaultAsync();
 
 
-        public async Task<IEnumerable<Product>> GetAllAsync() => await _inventoryContext.Products.ToListAsync();
+        public async Task<IEnumerable<Product>> GetAllAsync() => await _inventoryContext.Products.Include( b => b.Category)
+                                                                                                 .ToListAsync();
 
         public async Task Save() => await _inventoryContext.SaveChangesAsync();
 
@@ -33,5 +35,6 @@ namespace MiApi.Repository
             _inventoryContext.Attach(entity);
             _inventoryContext.Entry(entity).State = EntityState.Modified;
         }
+        
     }
 }

@@ -29,7 +29,7 @@ namespace MiApi.Controllers
         public async Task<ActionResult<WarehouseDto>> Get()
         {
             var warehouse = await _warehouseService.GetAllAsync();
-
+        
             return warehouse != null ? Ok(warehouse) : NotFound();
         }
 
@@ -50,7 +50,7 @@ namespace MiApi.Controllers
 
             var warehouse = await _warehouseService.AddAsync(warehouseInsertDto);
 
-            return CreatedAtAction(nameof(GetById), new {id = warehouse.Id, warehouse});
+            return CreatedAtAction(nameof(GetById), new { id = warehouse.Id }, warehouse);
         }
 
         [HttpPut("{id}")]

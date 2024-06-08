@@ -44,9 +44,9 @@ namespace MiApi.Controllers
             if (!validatorResult.IsValid) return BadRequest(validatorResult.Errors);
             if (!_productService.Validate(productDto)) return BadRequest(_productService.Errors);
 
-            var product = _productService.AddAsync(productDto);
+            var product = await _productService.AddAsync(productDto);
 
-            return CreatedAtAction(nameof(GetById), new {id = product.Id}, product);
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
