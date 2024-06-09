@@ -19,7 +19,8 @@ namespace MiApi.Repository
         {
             _inventoryContext.Products.Remove(entity);
         }
-        public async Task<Product> FindByIdAsync(int id) => await _inventoryContext.Products.Include(b => b.Category)
+        public async Task<Product> FindByIdAsync(int id) => await _inventoryContext.Products.Where(b => b.Id == id)
+                                                                                            .Include(b => b.Category)
                                                                                             .FirstOrDefaultAsync();
 
 

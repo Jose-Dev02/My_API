@@ -28,10 +28,17 @@ builder.Services.AddKeyedScoped<IRepository<Category>, CategoryRepository>("cate
 builder.Services.AddKeyedScoped<IRepository<Warehouse>, WarehouseRepository>("warehouseRepository");
 
 //Entity Framework
+//builder.Services.AddDbContext<InventoryContext>(context =>
+//{
+//    context.UseSqlServer(builder.Configuration.GetConnectionString("InventoryConnection"));
+//});
+
+//Somee Hosting
 builder.Services.AddDbContext<InventoryContext>(context =>
 {
-    context.UseSqlServer(builder.Configuration.GetConnectionString("InventoryConnection"));
+    context.UseSqlServer(builder.Configuration.GetConnectionString("SomeeHostingInventory"));
 });
+
 
 //Validators
 builder.Services.AddScoped<IValidator<ProductInsertDto>, ProductInsertValidator>();

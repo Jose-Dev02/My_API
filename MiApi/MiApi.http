@@ -1,6 +1,6 @@
-@MiApi_HostAddress = http://localhost:5217
+@MiApi_HostAddress = http://localhost:5217/api
 
-GET {{MiApi_HostAddress}}/weatherforecast/
+GET {{MiApi_HostAddress}}/Warehouse
 Accept: application/json
 
 ###
