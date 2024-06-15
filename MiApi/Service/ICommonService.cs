@@ -5,6 +5,7 @@
         public List<string> Errors { get; }
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> FindByIdAsync(int id);
+        Task<T> Find(string name);
         Task<T> AddAsync(TI ti);
         Task<T> Update(int id, TU tu);
         Task<T> Delete(int id);

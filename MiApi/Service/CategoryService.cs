@@ -96,5 +96,10 @@ namespace MiApi.Service
             }
             return true;
         }
+
+        public Task<CategoryDto> Find(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

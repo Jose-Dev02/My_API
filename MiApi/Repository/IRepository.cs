@@ -4,6 +4,7 @@
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> FindByIdAsync(int id);
+        Task<TEntity> Find(string name);
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);

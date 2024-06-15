@@ -22,6 +22,12 @@ namespace MiApi.Mappers
             CreateMap<WarehouseInsertDto, Warehouse>();
             CreateMap<WarehouseUpdateDto, Warehouse>();
             CreateMap<Warehouse, WarehouseDto>();
+
+            //Mapper User
+            CreateMap<UserUpdateDto, User>();
+            CreateMap<UserInsertDto, User>();
+            CreateMap<User, UserDto>();
+            CreateMap<UserDto, UserUpdateDto>();
         }
     }
 }

@@ -19,6 +19,11 @@ namespace MiApi.Repository
             _inventoryContext.Warehouse.Remove(warehouse);
         }
 
+        public Task<Warehouse> Find(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Warehouse> FindByIdAsync(int id) => await _inventoryContext.Warehouse.Where( b => b.Id == id)
                                                                                                .Include( b => b.Product )
                                                                                                .ThenInclude(b => b.Category )

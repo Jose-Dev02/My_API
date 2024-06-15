@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MiApi.DTOs;
 using MiApi.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace MiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WarehouseController : ControllerBase
     {
         private ICommonService<WarehouseDto, WarehouseInsertDto, WarehouseUpdateDto> _warehouseService;

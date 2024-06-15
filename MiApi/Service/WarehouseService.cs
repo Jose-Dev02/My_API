@@ -93,5 +93,10 @@ namespace MiApi.Service
             }
             return true;
         }
+
+        public Task<WarehouseDto> Find(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

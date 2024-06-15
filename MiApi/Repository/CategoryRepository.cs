@@ -20,6 +20,11 @@ namespace MiApi.Repository
             _inventoryContext.Categories.Remove(category);
         }
 
+        public Task<Category> Find(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Category> FindByIdAsync(int id) => await _inventoryContext.Categories.FindAsync(id);
 
         public async Task<IEnumerable<Category>> GetAllAsync() => await _inventoryContext.Categories.ToListAsync();
