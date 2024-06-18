@@ -9,7 +9,7 @@ namespace MiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class WarehouseController : ControllerBase
     {
         private ICommonService<WarehouseDto, WarehouseInsertDto, WarehouseUpdateDto> _warehouseService;
@@ -32,7 +32,7 @@ namespace MiApi.Controllers
         {
             var warehouse = await _warehouseService.GetAllAsync();
         
-            return warehouse != null ? Ok(warehouse) : NotFound();
+            return warehouse != null ? Ok(new { warehouse, success = true }) : NotFound(new {success = false, message = "Database Error." });
         }
 
         [HttpGet("{id}")]

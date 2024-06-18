@@ -2,12 +2,14 @@
 using MiApi.Helpers;
 using MiApi.Models;
 using MiApi.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using XAct;
 
 namespace MiApi.Controllers
 {
@@ -22,19 +24,17 @@ namespace MiApi.Controllers
           [FromKeyedServices("userService")]ICommonService<UserDto, UserInsertDto,UserUpdateDto> userService)
         {
 #pragma warning disable CS8601 // Possible null reference assignment.
-            secretKey = config.GetSection("settings")
-                                   .GetSection("secretKey")
-                                   .ToString();
+            secretKey = config.GetSection("settings:secretKey").Value;
 #pragma warning restore CS8601 // Possible null reference assignment.
-           
+
             _userService = userService;
         }
 
 
         [HttpPost]
-        [Route("Validar")]
+        [Route("LogIn")]
 
-        public async Task<IActionResult> Validar([FromBody] User request)
+        public async Task<IActionResult> LogIn([FromBody] User request)
         {
             var user = await _userService.Find(request.Name);
             if(user != null )
@@ -44,26 +44,19 @@ namespace MiApi.Controllers
 
                 if (!res) return Unauthorized(new { success = false, message = "INCORRECT Password" });
 
+                var tokenCreado = GenerateJSONWebToken(request.Name);
 
-                var keyBytes = Encoding.ASCII.GetBytes(secretKey);
-                var claims = new ClaimsIdentity();
-
-                claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, request.Name));
-                var tokenDescriptor = new SecurityTokenDescriptor 
+                var cookieOptions = new CookieOptions
                 {
-                    Subject = claims,
+                    HttpOnly = true,
+                    Secure = true, // Asegurar que la cookie solo se envíe a través de HTTPS
+                     SameSite = SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddMinutes(5),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
                 };
 
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
+                Response.Cookies.Append("authToken", tokenCreado, cookieOptions);
 
-                var tokenCreado = tokenHandler.WriteToken(tokenConfig);
-
-              
-                
-                return Ok( new { success =true, token = tokenCreado }); 
+                return Ok( new { success = true, token = tokenCreado }); 
             }
             else return Unauthorized(new { success = false, message = "Username NOT exist." });
             
@@ -74,12 +67,15 @@ namespace MiApi.Controllers
 
         [HttpGet]
         [Route("users")]
+        [Authorize]
 
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userService.GetAllAsync();
 
-            return users != null ? Ok( users ) : NotFound() ;
+            var showuser = users.Select(b => new { name = b.Name, correo = b.Correo}).ToList();
+
+            return users != null ? Ok( showuser ) : NotFound() ;
         }
 
         [HttpPost]
@@ -109,8 +105,31 @@ namespace MiApi.Controllers
             userUpdateDto.Clave = HelperCryptography.EncryptarPwd(userUpdateDto.Password, userUpdateDto.Salt);
 
             await _userService.Update(user.Id,userUpdateDto);
-            return Ok(new {success = true, message = "Changes successfully applied."})
+            return Ok(new { success = true, message = "Changes successfully applied." });
         }
         
+
+        private string GenerateJSONWebToken(string name)
+        {
+
+            var keyBytes = Encoding.ASCII.GetBytes(secretKey);
+            var claims = new ClaimsIdentity();
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature);
+
+            claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, name));
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = claims,
+                Expires = DateTime.UtcNow.AddMinutes(5),
+                SigningCredentials = credentials,
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
+
+            var tokenCreado = tokenHandler.WriteToken(tokenConfig);
+
+            return tokenCreado;
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace MiApi.Controllers
         {
             var category = await _categoryService.GetAllAsync();
 
-            return category == null ? NotFound() : Ok(category);
+            return category == null ? NotFound( new {success = false, message = "Database Error Connection"}) : Ok(new { category, success = true });
         }
 
         [HttpGet("{id}")]
