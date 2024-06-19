@@ -10,6 +10,7 @@ namespace MiApi.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int CategoryId { get; set; }
+        public string MediaURL { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }

@@ -7,6 +7,7 @@ namespace MiApi.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public int CategoryId { get; set; }
+        public string MediaURL { get; set; }
         public Category Category { get; set; }
         public decimal Price { get; set; }
     }
