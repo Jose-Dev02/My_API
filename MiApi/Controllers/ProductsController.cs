@@ -61,7 +61,7 @@ namespace MiApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ProductDto>> Update(int id, ProductUpdateDto productDto, IFormFile? file)
+        public async Task<ActionResult<ProductDto>> Update(int id, ProductUpdateDto productDto)
         {
             var validatorResult = await _productUpdateValidator.ValidateAsync(productDto);
             if (!validatorResult.IsValid) return BadRequest(validatorResult.Errors);
