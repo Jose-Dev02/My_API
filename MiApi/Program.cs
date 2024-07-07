@@ -36,16 +36,16 @@ builder.Services.AddKeyedScoped<IRepository<Warehouse>, WarehouseRepository>("wa
 builder.Services.AddKeyedScoped<IRepository<User>, UserRepository>("userRepository");
 
 //Database Local EntityFramework
-builder.Services.AddDbContext<InventoryContext>(context =>
-{
-    context.UseSqlServer(builder.Configuration.GetConnectionString("InventoryConnection"));
-});
+//builder.Services.AddDbContext<InventoryContext>(context =>
+//{
+//    context.UseSqlServer(builder.Configuration.GetConnectionString("InventoryConnection"));
+//});
 
 //Somee HostingDB  EntityFramework
-/*builder.Services.AddDbContext<InventoryContext>(context =>
+builder.Services.AddDbContext<InventoryContext>(context =>
 {
     context.UseSqlServer(builder.Configuration.GetConnectionString("SomeeHostingInventory"));
-});*/
+});
 
 
 //Validators
@@ -117,7 +117,7 @@ var configuration = proveedor.GetRequiredService<IConfiguration>();
 
 builder.Services.AddCors(b =>
 {
-    var frontendUrl = configuration.GetValue<string>("Frontend_url");
+    var frontendUrl = configuration.GetValue<string>("Frontend_url_local");
 
     b.AddDefaultPolicy(builder =>
     {

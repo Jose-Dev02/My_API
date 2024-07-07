@@ -30,7 +30,7 @@ namespace MiApi.Controllers
         public async Task<ActionResult<ProductDto>> Get()
         {
             var product = await _productService.GetAllAsync();
-            return product == null ? NotFound() : Ok(product);
+            return product == null ? NotFound(new { success = false, message = "Database Error Connection" }) : Ok(new {success = true, product});
         }
 
         [HttpGet("{id}")]
