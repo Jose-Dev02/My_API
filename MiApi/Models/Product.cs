@@ -19,3 +19,4 @@ namespace MiApi.Models
         public virtual Category Category { get; set; }
     }
 }
+ 
